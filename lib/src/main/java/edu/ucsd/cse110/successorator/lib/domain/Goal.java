@@ -18,24 +18,23 @@ public class Goal {
         this.id = id;
     }
 
-
     @NonNull
-    public String getName() {
+    public String name() {
         return name;
     }
 
     @NonNull
-    public String getDescription() {
+    public String description() {
         return description;
     }
 
     @NonNull
-    public Integer getPriority() {
+    public Integer priority() {
         return priority;
     }
 
     @NonNull
-    public Integer getId() {
+    public Integer id() {
         return id;
     }
 
