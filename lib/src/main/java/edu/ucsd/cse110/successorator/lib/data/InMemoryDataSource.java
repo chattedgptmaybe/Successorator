@@ -107,6 +107,19 @@ public class InMemoryDataSource {
             new Day(new Date(),
                     List.of(
                         DEFAULT_GOALS.get(0),
+                        DEFAULT_GOALS.get(1),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(3),
+                        DEFAULT_GOALS.get(4),
+                        DEFAULT_GOALS.get(5),
+                        DEFAULT_GOALS.get(1),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
+                        DEFAULT_GOALS.get(2),
                         DEFAULT_GOALS.get(1)),
                     1),
             new Day(new Date(),
@@ -120,6 +133,9 @@ public class InMemoryDataSource {
         var data = new InMemoryDataSource();
         for (Goal Goal : DEFAULT_GOALS) {
             data.putGoal(Goal);
+        }
+        for (Day Day : DEFAULT_DAYS) {
+            data.putDay(Day);
         }
         return data;
     }

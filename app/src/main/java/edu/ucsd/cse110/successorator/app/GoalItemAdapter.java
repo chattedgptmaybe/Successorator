@@ -1,46 +1,71 @@
 package edu.ucsd.cse110.successorator.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class GoalItemAdapter extends ListAdapter {
+import edu.ucsd.cse110.successorator.app.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.app.databinding.ListviewGoallistBinding;
+import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.util.Subject;
 
+public class GoalItemAdapter extends AppCompatActivity implements ListAdapter {
     Activity activity;
-    ArrayList<String> listname, listnum;
+    Subject<List<Goal>> goalList;
     int size;
 
-    public GoalItemAdapter(Activity activity, ArrayList<String>
-            listname, ArrayList<String> listnum) {
-        super();
-        this.listname = listname;
-        this.listnum = listnum;
-        size = listname.size();
+    public GoalItemAdapter(Activity activity, Subject<List<Goal>> goalList) {
+        this.goalList = goalList;
+        if (goalList.getValue() != null) {
+            size = goalList.getValue().size();
+        } else {
+            size = 1;
+        }
+
         this.activity = activity;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        LayoutInflater inflater = (LayoutInflater) activity
-                .getSystemService(activity.LAYOUT_INFLATER_SERVICE);
+        ListviewGoallistBinding binding;
 
-        View v = inflater.inflate(R.layout.listview_goallist, null);
-        TextView tviname = (TextView) v.findViewById(R.id.tviname);
-        TextView tvinum = (TextView) v.findViewById(R.id.tvinum);
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) activity
+                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+            binding = ListviewGoallistBinding.inflate(inflater);
+        } else {
+            binding = ListviewGoallistBinding.bind(view);
+        }
 
+        TextView itemGoalTitle = binding.itemGoalTitle;
+        TextView itemGoalDescription = binding.itemGoalDescription;
+        TextView itemGoalPriority = binding.itemGoalPriority;
 
-        tviname.setText(listname.get(position));
-        tvinum.setText(listnum.get(position));
-        return v;
+        if (goalList.getValue() != null) {
+            Goal goal = goalList.getValue().get(position);
+
+            itemGoalTitle.setText(goal.name());
+            itemGoalDescription.setText(goal.description());
+            itemGoalPriority.setText(String.valueOf(goal.priority()));
+        } else {
+            itemGoalTitle.setText(R.string.invalid);
+            itemGoalDescription.setText(R.string.invalid);
+            itemGoalPriority.setText("x");
+        }
+
+        return binding.getRoot();
     }
 
     @Override
@@ -73,16 +98,11 @@ public class GoalItemAdapter extends ListAdapter {
         return 0;
     }
 
-    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public boolean hasStableIds() {
+        return false;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-    }
 
     @Override
     public int getItemViewType(int position) {

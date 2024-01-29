@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import java.util.Date;
 import java.util.List;
 
+import edu.ucsd.cse110.successorator.lib.util.Subject;
+
 public class Day {
     private final @NonNull Integer id;
     private final @NonNull Date date;
@@ -34,5 +36,13 @@ public class Day {
     static public Day addGoals(Day day, List<Goal> goalsList) {
         // TODO:: placeholder
         return new Day(day.date, day.goals, day.id);
+    }
+
+    public Subject<List<Goal>> getAllGoalsSubject() {
+        Subject<List<Goal>> allGoalsSubject = new Subject<>();
+
+        allGoalsSubject.setValue(goals);
+
+        return allGoalsSubject;
     }
 }

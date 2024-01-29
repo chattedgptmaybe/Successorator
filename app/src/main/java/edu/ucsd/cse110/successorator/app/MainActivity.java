@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
+import java.util.List;
+
 import edu.ucsd.cse110.successorator.app.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -22,12 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        ArrayAdapter adapter = new ArrayAdapter<Subject<Goal>>(this,
-                binding.goalList.getRootView(), dataSource.getGoalsSubject());
+        GoalItemAdapter adapter = new GoalItemAdapter(this, dataSource.getDay(1).getAllGoalsSubject());
         binding.goalList.setAdapter(adapter);
 
         setContentView(binding.getRoot());
     }
 }
-
-public class GoalItemAdapter
